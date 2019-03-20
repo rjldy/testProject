@@ -223,7 +223,7 @@ export default {
     // 确定删除
     deleteRow() {
       this.tableData.splice(this.idx, 1);
-      this.$message.success("删除成功");
+      this.$message.success("删除成功!");
       this.delVisible = false;
     }
   }
