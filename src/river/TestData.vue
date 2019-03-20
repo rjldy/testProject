@@ -499,7 +499,7 @@ export default {
             });
         })
         .catch(() => {
-          alert("删除失败！");
+          alert("删除失败！！！！");
         });
     },
     handleSizeChange(val) {
