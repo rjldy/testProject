@@ -1,38 +1,36 @@
 <template>
   <div class="container">
-    <div class="form-box">
-      <el-form ref="form" :inline="true">
-        <el-form-item label="姓名:" prop="name">
-          <el-input size="mini" v-model="searchName" clearable placeholder="请输入姓名"></el-input>
-          <!-- <el-row :gutter="2">
-            <el-col :span="7">
-              <el-input size="mini" v-model="searchName" placeholder="请输入姓名"></el-input>
-            </el-col>
-            <el-col :span="5">年龄:
-              <el-input size="mini" v-model="searchAge" placeholder="请输入年龄"></el-input>
-            </el-col>
-            <el-col :span="6">
-              <el-button type="primary" v-on:click="getGridData()" size="mini">查询</el-button>
-              <el-button type="primary" size="mini">重置</el-button>
-              <el-button type="success" size="mini">添加</el-button>
-            </el-col>
-          </el-row>-->
-        </el-form-item>
-        <el-form-item label="年龄:" prop="age">
-          <el-input size="mini" v-model="searchAge" clearable placeholder="请输入年龄"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <!-- <el-button type="primary" size="mini">重置</el-button> -->
-          <el-button type="success" size="mini" @click="addFormVisible= true">添加</el-button>
-          <el-button type="primary" size="mini" @click="printClick()">打印</el-button>
-          <!-- <el-button type="primary" size="mini" v-print="'#table_print'">打印</el-button> -->
-          <!-- <el-button type="primary" size="mini" @click="exprot()">导出(exel)</el-button> -->
-        </el-form-item>
-        <!-- <el-form-item>
-        </el-form-item>-->
+    <!-- <div class="form-box"> -->
+    <el-card class="box-card" shadow="hover" body-style="padding:5px;">
+      <el-form ref="form" :model="form" class="form1" label-width="85px">
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label="姓名:" prop="name">
+              <el-input size="mini" v-model="searchName" clearable placeholder="请输入姓名"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="年龄:" prop="age">
+              <el-input size="mini" v-model="searchAge" clearable placeholder="请输入年龄"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="单位名称:" prop="company">
+              <el-input size="mini" clearable placeholder="请输入单位"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item>
+              <el-button type="success" size="mini" @click="addFormVisible= true">添加</el-button>
+              <el-button type="primary" size="mini" @click="printClick()">打印</el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
-    </div>
-    <div>
+    </el-card>
+    <!-- </div> -->
+    <!-- <div> -->
+    <el-card class="box-card table" shadow="hover" body-style="padding:5px;">
       <el-row>
         <el-col :span="24">
           <div class="grid-content bg-purple">
@@ -85,10 +83,12 @@
           </div>
         </el-col>
       </el-row>
-    </div>
+    </el-card>
+
+    <!-- </div> -->
     <!-- <div> -->
     <!--新增界面 ldy测试提交-->
-    <el-dialog title="新增" v-dialogDrag :visible.sync="addFormVisible">
+    <el-dialog title="新增" v-dialogDrag :visible.sync="addFormVisible" center="true">
       <el-form :model="addForm" label-width="80px" ref="addForm" :rules="addFormRules">
         <el-form-item label="姓名" prop="name">
           <el-input v-model="addForm.name" auto-complete="off"></el-input>
@@ -107,13 +107,13 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click.native="addFormVisible = false">取消</el-button>
         <el-button type="primary" @click.native="addSubmit" :loading="addLoading">提交</el-button>
+        <el-button @click.native="addFormVisible = false">取消</el-button>
       </div>
     </el-dialog>
 
     <!-- 编辑界面 -->
-    <el-dialog title="编辑" :visible.sync="editFormVisible">
+    <el-dialog title="编辑" :visible.sync="editFormVisible" center="true">
       <el-form :model="editForm" label-width="80px" ref="editForm" :rules="editFormRules">
         <el-form-item label="姓名" prop="name">
           <el-input v-model="editForm.name" auto-complete="off"></el-input>
@@ -132,16 +132,19 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click.native="editFormVisible = false">取消</el-button>
         <el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
+        <el-button @click.native="editFormVisible = false">取消</el-button>
       </div>
     </el-dialog>
   </div>
   <!-- </div> -->
 </template>
 <script>
-import util from "../components/common/until";
-import LoDop from "../components/common/LodopFuncs";
+import util from "../common/js/until";
+// import Vue from "vue";
+// import Print from "../components/common/print";
+// Vue.use(Print);
+import $ from "jquery";
 export default {
   name: "sjjzcsym",
   data() {
@@ -247,7 +250,6 @@ export default {
     //打印按钮
     printClick() {
       let subOutputRankPrint = this.$refs.table_print;
-      // console.log(subOutputRankPrint);
       let newContent = subOutputRankPrint.innerHTML;
       let oldContent = document.body.innerHTML;
       document.body.innerHTML = newContent;
@@ -257,124 +259,10 @@ export default {
       window.location.reload();
       return false;
 
-      // var htmlPath = ".." + res.data.pathHtml; //返回HTML页面路径
-      // let LODOP = LoDop.getLodop();
-      // console.log(LODOP);
-      // // LODOP.PRINT_INIT("打印控件功能演示_Lodop功能_按网址打印");
-      // LODOP.ADD_PRINT_URL(30, 0, 746, "95%", oldContent); //746
-      // LODOP.SET_PRINT_STYLEA(0, "HOrient", 3);
-      // LODOP.SET_PRINT_STYLEA(0, "VOrient", 3); //		LODOP.SET_SHOW_MODE("MESSAGE_GETING_URL",""); //该语句隐藏进度条或修改提示信息 //		LODOP.SET_SHOW_MODE("MESSAGE_PARSING_URL","");//该语句隐藏进度条或修改提示信息
-      // LODOP.PREVIEW();
-    },
-    //导出到exel
-    exprot() {
-      let et = XLSX.utils.table_to_book(document.getElementById("table_print")); //此处传入table的DOM节点
-      // let et = XLSX.utils.table_to_book(this.$refs.print);
-      let etout = XLSX.write(et, {
-        bookType: "xlsx",
-        bookSST: true,
-        type: "array"
-      });
-      try {
-        FileSaver.saveAs(
-          new Blob([etout], {
-            type: "application/octet-stream"
-          }),
-          "trade-publish.xlsx"
-        ); //trade-publish.xlsx 为导出的文件名
-      } catch (e) {
-        console.log(e, etout);
-      }
-      return etout;
-    },
-    getLodop(oOBJECT, oEMBED) {
-      /**************************
-  本函数根据浏览器类型决定采用哪个页面元素作为Lodop对象：
-  IE系列、IE内核系列的浏览器采用oOBJECT，
-  其它浏览器(Firefox系列、Chrome系列、Opera系列、Safari系列等)采用oEMBED,
-  如果页面没有相关对象元素，则新建一个或使用上次那个,避免重复生成。
-  64位浏览器指向64位的安装程序install_lodop64.exe。
-**************************/
-      var strHtmInstall =
-        "<br><font color='#FF00FF'>打印控件未安装!点击这里<a href='install_lodop32.exe' target='_self'>执行安装</a>,安装后请刷新页面或重新进入。</font>";
-      var strHtmUpdate =
-        "<br><font color='#FF00FF'>打印控件需要升级!点击这里<a href='install_lodop32.exe' target='_self'>执行升级</a>,升级后请重新进入。</font>";
-      var strHtm64_Install =
-        "<br><font color='#FF00FF'>打印控件未安装!点击这里<a href='install_lodop64.exe' target='_self'>执行安装</a>,安装后请刷新页面或重新进入。</font>";
-      var strHtm64_Update =
-        "<br><font color='#FF00FF'>打印控件需要升级!点击这里<a href='install_lodop64.exe' target='_self'>执行升级</a>,升级后请重新进入。</font>";
-      var strHtmFireFox =
-        "<br><br><font color='#FF00FF'>（注意：如曾安装过Lodop旧版附件npActiveXPLugin,请在【工具】->【附加组件】->【扩展】中先卸它）</font>";
-      var strHtmChrome =
-        "<br><br><font color='#FF00FF'>(如果此前正常，仅因浏览器升级或重安装而出问题，需重新执行以上安装）</font>";
-      var LODOP;
-      try {
-        //=====判断浏览器类型:===============
-        var isIE =
-          navigator.userAgent.indexOf("MSIE") >= 0 ||
-          navigator.userAgent.indexOf("Trident") >= 0;
-        var is64IE = isIE && navigator.userAgent.indexOf("x64") >= 0;
-        //=====如果页面有Lodop就直接使用，没有则新建:==========
-        if (oOBJECT != undefined || oEMBED != undefined) {
-          if (isIE) LODOP = oOBJECT;
-          else LODOP = oEMBED;
-        } else {
-          if (CreatedOKLodop7766 == null) {
-            LODOP = document.createElement("object");
-            LODOP.setAttribute("width", 0);
-            LODOP.setAttribute("height", 0);
-            LODOP.setAttribute(
-              "style",
-              "position:absolute;left:0px;top:-100px;width:0px;height:0px;"
-            );
-            if (isIE)
-              LODOP.setAttribute(
-                "classid",
-                "clsid:2105C259-1E0C-4534-8141-A753534CB4CA"
-              );
-            else LODOP.setAttribute("type", "application/x-print-lodop");
-            document.documentElement.appendChild(LODOP);
-            CreatedOKLodop7766 = LODOP;
-          } else LODOP = CreatedOKLodop7766;
-        }
-        //=====判断Lodop插件是否安装过，没有安装或版本过低就提示下载安装:==========
-        if (LODOP == null || typeof LODOP.VERSION == "undefined") {
-          if (navigator.userAgent.indexOf("Chrome") >= 0)
-            document.documentElement.innerHTML =
-              strHtmChrome + document.documentElement.innerHTML;
-          if (navigator.userAgent.indexOf("Firefox") >= 0)
-            document.documentElement.innerHTML =
-              strHtmFireFox + document.documentElement.innerHTML;
-          if (is64IE) document.write(strHtm64_Install);
-          else if (isIE) document.write(strHtmInstall);
-          else
-            document.documentElement.innerHTML =
-              strHtmInstall + document.documentElement.innerHTML;
-          return LODOP;
-        } else if (LODOP.VERSION < "6.1.9.8") {
-          if (is64IE) document.write(strHtm64_Update);
-          else if (isIE) document.write(strHtmUpdate);
-          else
-            document.documentElement.innerHTML =
-              strHtmUpdate + document.documentElement.innerHTML;
-          return LODOP;
-        }
-        //=====如下空白位置适合调用统一功能(如注册码、语言选择等):====
-
-        //============================================================
-        return LODOP;
-      } catch (err) {
-        if (is64IE)
-          document.documentElement.innerHTML =
-            "Error:" + strHtm64_Install + document.documentElement.innerHTML;
-        else
-          document.documentElement.innerHTML =
-            "Error:" + strHtmInstall + document.documentElement.innerHTML;
-        return LODOP;
-      }
+      // this.$Print(this.$refs.table_print) // 使用
     },
     tableHeaderColor({ row, rowIndex }) {
-      return "background-color: #eee;color:black;text-align:center";
+      return "background-color: #e1edf8;color:black;text-align:center";
     },
     getGridData() {
       this.loading = true;
@@ -393,14 +281,11 @@ export default {
           }
         )
         .then(res => {
-          console.log(res);
           this.tableData = res.data;
           this.loading = false;
           // this.total = 12;
           // console.log(this.total);
-          console.log(res.data);
         });
-      console.log(reqData);
     },
     //显示新增界面
     handleAdd: function() {
@@ -415,25 +300,16 @@ export default {
     },
     //新增
     addSubmit: function() {
-      // this.addLoading = true;
       this.$refs.addForm.validate(valid => {
         if (valid) {
           this.$confirm("确认提交吗？", "提示", {}).then(() => {
             this.addLoading = true;
             let para = Object.assign({}, this.addForm);
-            // console.log(
-            //   util.formatDate.format(new Date(para.birthday), "yyyy-MM-dd")
-            // );
             para.birthday =
               !para.birthday || para.birthday == ""
                 ? ""
                 : util.formatDate.format(new Date(para.birthday), "yyyy-MM-dd");
-            // console.log(para);
-            // para.id = "10";
-            // console.log(this.tableData);
-            console.log(this.tableData.length);
             para.id = this.tableData.length + 1;
-            console.log(this.tableData.length + 1);
             this.$http.post("http://localhost:3001/ldy02", para).then(res => {
               this.$message({
                 message: "提交成功",
@@ -480,14 +356,11 @@ export default {
     },
     //删除
     handleDel: function(index, row) {
-      console.log(index);
-      console.log(row);
       this.$confirm("确认删除该记录吗?", "提示", {
         type: "warning"
       })
         .then(() => {
           let para = { id: row.id };
-          console.log(para.id);
           this.$http
             .delete("http://localhost:3001/ldy02/" + para.id)
             .then(res => {
@@ -511,4 +384,19 @@ export default {
   }
 };
 </script>
+<style snoped>
+.form1 {
+  margin-top: 15px;
+}
+.container {
+  padding: 10px;
+}
+.table {
+  margin-top: 8px;
+}
+/* .from-box {
+  width: 100%;
+} */
+</style>
+
 

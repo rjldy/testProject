@@ -11,14 +11,14 @@ import "./components/common/directives";
 import "babel-polyfill";
 import echarts from "echarts";
 import VueAMap from "vue-amap";
-import Print from "vue-print-nb";
+import Print from "@/plugs/print";
 import $ from 'jquery';
 // import directives from './components/common/directives';
 // import FileSaver from 'file-saver';
 // import XLSX from 'xlsx'
 // import Print from '@/plugs/print';
 // Vue.use(Print);
-// Vue.use(FileSaver);
+// Vue.use(FilSaver);
 // Vue.use(XLSX);
 // Vue.use(directives);
 Vue.use($);
@@ -47,11 +47,12 @@ Vue.use(ElementUI, {
   size: "small"
 });
 Vue.use(VueResource);
-Vue.prototype.$axios = axios;
+// Vue.prototype.$axios = axios;
 
 //使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {
   const role = localStorage.getItem("ms_username");
+  console.log(role);
   if (!role && to.path !== "/login") {
     next("/login");
   } else if (to.meta.permission) {
@@ -77,3 +78,5 @@ new Vue({
   router,
   render: h => h(App)
 }).$mount("#app");
+
+global.vm = vm;

@@ -1,7 +1,8 @@
 <template>
   <div class="container">
-    <div class="form-box">
-      <el-form ref="form" :inline="true" class="demo-form-inline" :model="form" label-width>
+    <!-- <div class="form-box"> -->
+    <el-card class="box-card" shadow="hover" body-style="padding:5px;">
+      <el-form ref="form" :inline="true" class="demo-form-inline form2" :model="form" label-width>
         <!-- <el-form-item label="包括下级数据:">
           <el-switch v-model="ruleForm.delivery"></el-switch>
         </el-form-item>-->
@@ -26,8 +27,9 @@
           </el-row>
         </el-form-item>
       </el-form>
-    </div>
-    <div ref="print">
+    </el-card>
+    <!-- </div> -->
+    <div ref="print" class="four_card">
       <el-row :gutter="5">
         <el-col :span="12">
           <div class="grid-content bg-purple">
@@ -160,7 +162,7 @@
   </div>
 </template>
 <script>
-import Print from "../components/common/print";
+import Print from "../plugs/print";
 // import echarts from "echarts";
 // Vue.prototype.$echarts = echarts //将echarts存到Vue原型中
 export default {
@@ -275,18 +277,18 @@ export default {
   },
   methods: {
     printClick() {
-      // let subOutputRankPrint = this.$refs.print;
-      // let newContent = subOutputRankPrint.innerHTML;
-      // let oldContent = document.body.innerHTML;
-      // document.body.innerHTML = newContent;
-      // window.print();
+      let subOutputRankPrint = this.$refs.print;
+      let newContent = subOutputRankPrint.innerHTML;
+      let oldContent = document.body.innerHTML;
+      document.body.innerHTML = newContent;
+      window.print();
 
-      // document.body.innerHTML = oldContent;
-      // window.location.reload();
+      document.body.innerHTML = oldContent;
+      window.location.reload();
       // return false;
       // Print("#wrap");
       // this.$print(this.$refs.print);
-      this.$print(this.$refs.print);
+      // this.$print(this.$refs.print);
     },
     tableHeaderColor({ row, rowIndex }) {
       return "background-color: #eee;color:black";
@@ -429,5 +431,14 @@ export default {
 .customWidth {
   width: 80%;
   /* height: 50%; */
+}
+.container {
+  padding: 10px;
+}
+.form2 {
+  margin-top: 15px;
+}
+.four_card {
+  margin-top: 8px;
 }
 </style>

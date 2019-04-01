@@ -61,7 +61,7 @@
     {
       "id": 1,
       "name": "张三",
-      "age": "29",
+      "age": 29,
       "birthday": "1990-04-21",
       "job": "工程师",
       "address": "南京"
@@ -129,6 +129,47 @@
       "job": "厨师",
       "address": "北京",
       "id": 9
+    }
+  ],
+  "menu01": [
+    {
+      "icon": "el-icon-lx-home",
+      "index": "dashboard",
+      "title": "系统首页"
+    },
+    {
+      "icon": "el-icon-lx-warn",
+      "index": "7",
+      "title": "错误处理",
+      "subs": [
+        {
+          "index": "permission",
+          "title": "权限测试"
+        },
+        {
+          "index": "404",
+          "title": "404页面"
+        }
+      ]
+    },
+    {
+      "icon": "el-icon-tickets",
+      "index": "8",
+      "title": "巡河管理",
+      "subs": [
+        {
+          "index": "sjjzcsym",
+          "title": "数据加载测试页面"
+        },
+        {
+          "index": "dtym",
+          "title": "地图页面"
+        },
+        {
+          "index": "tbym",
+          "title": "图表页面"
+        }
+      ]
     }
   ]
 }

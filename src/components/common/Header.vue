@@ -50,7 +50,7 @@
             return {
                 collapse: false,
                 fullscreen: false,
-                name: 'linxin',
+                name: 'ldy',
                 message: 2
             }
         },
